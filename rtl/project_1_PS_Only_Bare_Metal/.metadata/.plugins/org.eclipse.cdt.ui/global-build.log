@@ -1,0 +1,27 @@
+Nothing to build in platform 'design_1_wrapper'
+
+17:07:10 **** Incremental Build of configuration Debug for project project1_baremetal ****
+make all 
+C:/Xilinx/Vitis/2024.2/gnuwin/bin/make --no-print-directory pre-build
+a9-linaro-pre-build-step
+' '
+C:/Xilinx/Vitis/2024.2/gnuwin/bin/make --no-print-directory main-build
+make[1]: Nothing to be done for 'main-build'.
+17:07:13 **** Incremental Build of configuration Debug for project project1_baremetal_system ****
+make all 
+Generating bif file for the system project
+generate_system_bif.bat 54727 C:/Users/rvelago/ZYBO_Z7/Projects/project_1_PS_Only_Bare_Metal/design_1_wrapper/export/design_1_wrapper/design_1_wrapper.xpfm standalone_ps7_cortexa9_0 C:/Users/rvelago/ZYBO_Z7/Projects/project_1_PS_Only_Bare_Metal/project1_baremetal_system/Debug/system.bif
+
+****** Software Commandline Tool (XSCT) v2024.2.1
+  **** SW Build 5266911 on Sun Dec 15 07:30:03 MST 2024
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+Warning: XSCT is deprecated and will be removed in future releases.
+We recommend using the new Python command-line tool for project management and debugging:
+- Run "vitis -i" for interactive mode.
+- Run "vitis -s <script>" for script mode.
+sdcard_gen --xpfm C:/Users/rvelago/ZYBO_Z7/Projects/project_1_PS_Only_Bare_Metal/design_1_wrapper/export/design_1_wrapper/design_1_wrapper.xpfm --sys_config design_1_wrapper --bif C:/Users/rvelago/ZYBO_Z7/Projects/project_1_PS_Only_Bare_Metal/project1_baremetal_system/Debug/system.bif --bitstream C:/Users/rvelago/ZYBO_Z7/Projects/project_1_PS_Only_Bare_Metal/project1_baremetal/_ide/bitstream/design_1_wrapper.bit --elf C:/Users/rvelago/ZYBO_Z7/Projects/project_1_PS_Only_Bare_Metal/project1_baremetal/Debug/project1_baremetal.elf,ps7_cortexa9_0
+creating BOOT.BIN using C:/Users/rvelago/ZYBO_Z7/Projects/project_1_PS_Only_Bare_Metal/project1_baremetal/_ide/bitstream/design_1_wrapper.bit
+Running C:/Xilinx/Vitis/2024.2/bin/bootgen  -image C:/Users/rvelago/ZYBO_Z7/Projects/project_1_PS_Only_Bare_Metal/project1_baremetal_system/Debug/sd_card_temp/boot.bif -w -o i BOOT.BIN
