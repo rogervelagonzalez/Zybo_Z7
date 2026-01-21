@@ -1,0 +1,10 @@
+17:07:10 **** Incremental Build of configuration Debug for project project1_baremetal ****
+make all 
+C:/Xilinx/Vitis/2024.2/gnuwin/bin/make --no-print-directory pre-build
+a9-linaro-pre-build-step
+' '
+C:/Xilinx/Vitis/2024.2/gnuwin/bin/make --no-print-directory main-build
+make[1]: Nothing to be done for 'main-build'.
+
+17:07:12 Build Finished (took 1s.923ms)
+
