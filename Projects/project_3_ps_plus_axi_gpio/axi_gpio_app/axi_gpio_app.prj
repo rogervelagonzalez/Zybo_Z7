@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="axi_gpio_app" location="C:/Users/rvelago/Zybo_Z7/axi_gpio/axi_gpio_app" platform="C:/Users/rvelago/Zybo_Z7/axi_gpio/axi_gpio/export/axi_gpio/axi_gpio.xpfm" platformUID="xilinx:zybo-z7-10::0.0(custom)" systemProject="axi_gpio_app_system" sysConfig="axi_gpio" runtime="C/C++" cpu="standalone_domain" cpuInstance="ps7_cortexa9_0" os="standalone" mssSignature="69ba603573732ba914b20ca99bffe1ef">
+  <configuration name="Debug" id="xilinx.gnu.armv7.exe.debug.1088799755">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+    <lastBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <configuration name="Release" id="xilinx.gnu.armv7.exe.release.1725190110" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <template appTemplateName="hello_world"/>
+</sdkproject:SdkProject>
