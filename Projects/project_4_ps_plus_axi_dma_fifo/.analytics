@@ -15,3 +15,6 @@ timestamp=[2026-05-17 20:01:04], mode=BUILD, duration=0:00:20.187, duration_ms=2
 timestamp=[2026-05-17 20:18:48], mode=BUILD, duration=0:00:01.678, duration_ms=1678, data={name=axi_dma_fifo_app, configuration=Debug, clean_build=true}
 timestamp=[2026-05-17 20:18:56], mode=BUILD, duration=0:00:07.785, duration_ms=7785, data={name=axi_dma_fifo_app, configuration=Debug, clean_build=false}
 timestamp=[2026-05-17 20:19:21], mode=BUILD, duration=0:00:24.024, duration_ms=24024, data={name=axi_dma_fifo_app_system, configuration=Debug, clean_build=false}
+timestamp=[2026-05-30 17:54:35], mode=WORKBENCH_START, duration=0:00:22.980, duration_ms=22980, data={}
+timestamp=[2026-05-30 17:54:38], mode=WORKBENCH_UI_INIT, duration=0:00:03.607, duration_ms=3607, data={editors_count=4, platform_editors_count=1, projects_count=4, platform_projects_count=1, active_platform_editor=false, projects=RemoteSystemsTempFiles,axi_dma_fifo_app,axi_dma_fifo_app_system,axi_dma_fifo_platform}
+timestamp=[2026-05-30 17:54:42], mode=PLATFORM_REPOSITORY_INIT, duration=0:00:01.327, duration_ms=1327, data={}
