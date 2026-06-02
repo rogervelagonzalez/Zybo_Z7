@@ -1,0 +1,100 @@
+Project 4 - PS + Axi DMA + FIFO
+The DMA engine is configured by the C application through the AXI4-Lite interface to initiate DMA-read and DMA-write operations. For DMA-read operation, a block of 16 32-bit incrementing numbers is transferred from the DDR to the axi4-Stream FIFO data buffer. That block of data from the AXI4-Stream FIFO is then moved back to the DDR at a different memory location through a DMA-write operation. The received data is then read and verified to validate the complete DMA application works as intended.
+
+Objective
+
+The goal of the project was to learn how to move data between:
+
+- DDR memory (managed by the Processing System)
+- AXI4-Stream infrastructure in the Programmable Logic
+
+using an AXI DMA engine. This is the foundation for future FPGA accelerators because most DSP, AI, image-processing, and custom VHDL blocks use AXI4-Stream interfaces rather than memory-mapped AXI.
+
+                 DDR Memory
+                      ^
+                      |
+                      |
+                 AXI Memory Map
+                      |
+                 AXI DMA
+            +----------------+
+            |                |
+         MM2S            S2MM
+            |                ^
+            v                |
+      AXI4-Stream      AXI4-Stream
+            |                ^
+            +------FIFO------+
+
+
+Project 5 - PS + Axi DMA + Gain IP VHDL block
+
+CACHE
+The Cache is used to reduce the latency to access the Memory (e.g., DDR) from the CPU. The Cache is located between the two and is normally an SRAM (Static), where the SRAM ensures to get back the data in a defined number of clock cycles, and is possible because you keep it small. As long as the CPU is working with that data, it prefers to work with the Cache (SRAM) and not the Memory (DDR). 
+what you can have is a coherency problem, the contents of Cache (SRAM) and the contents of Memory (DDR) doesn't match all the time because the data stays in Cache when the CPU is working on it. What happens if another bus master comes into play? For example a DMA won't see the Cache, only the DRAM which is not updated. We need a way to avoid incoherence. Normally, the Cache (SRAM) will try to detect if there is someone else trying to modify the contents in Memory (DDR) and then indicate that the data in cache is "dirty", meaning not fully updated if Memory (DDR) has changed. The two problems summarized:
+1. 
+CPU writes data -> CPU cache (not yet in memory)
+DMA reads from memory -> sees stale data!
+2.
+DMA writes to memory
+CPU reads data -> gets stale/dirty cache!
+Solutions:
+- Coherent buffers: hardware keeps cache in sync
+- Streaming data: explicit sync with dma_sync_*()
+- CMA: Contiguous memory allocator for large buffers
+
+INITIAL STATE
+  Cache: unknown/empty for these addresses
+  DDR:   unknown garbage
+
+──────────────────────────────────────────────────────
+memset(rx_buf, 0x00, BUFFER_BYTES)
+
+  CPU writes zeros to rx_buf addresses
+  Cache: rx_buf = 0x00000000 (dirty - not yet in DDR)
+  DDR:   rx_buf = garbage    ← DMA would read THIS if you started now
+
+──────────────────────────────────────────────────────
+fill_tx_buffer(tx_buf, NUM_SAMPLES)
+
+  CPU writes 0,1,2,3... to tx_buf addresses
+  Cache: tx_buf = 0,1,2,3...  (dirty)
+  DDR:   tx_buf = garbage     ← DMA would still read garbage
+
+──────────────────────────────────────────────────────
+Xil_DCacheFlushRange(tx_buf, BUFFER_BYTES)   ← FLUSH
+
+  Cache forces dirty lines to DDR
+  Cache: tx_buf = 0,1,2,3... (clean, matches DDR)
+  DDR:   tx_buf = 0,1,2,3... ← DMA will now read correct data ✅
+
+Xil_DCacheFlushRange(rx_buf, BUFFER_BYTES)   ← FLUSH
+
+  Cache forces dirty lines to DDR
+  Cache: rx_buf = 0x00000000 (clean, matches DDR)
+  DDR:   rx_buf = 0x00000000 ← DMA will write results here ✅
+
+──────────────────────────────────────────────────────
+DMA runs (MM2S + S2MM)
+
+  DMA reads tx_buf from DDR → streams through accelerator
+  DMA writes results to rx_buf in DDR
+
+  Cache: rx_buf = 0x00000000  ← STALE. Cache has no idea DMA wrote anything
+  DDR:   rx_buf = 0,4,8,12... ← Correct results are HERE
+
+  *** Cache and DDR are now OUT OF SYNC ***
+  *** Cache still thinks rx_buf is all zeros ***
+
+──────────────────────────────────────────────────────
+Xil_DCacheInvalidateRange(rx_buf, BUFFER_BYTES)  ← INVALIDATE
+
+  Marks those cache lines as invalid (throws away stale data)
+  Cache: rx_buf = INVALID (will be fetched from DDR on next read)
+  DDR:   rx_buf = 0,4,8,12...
+
+──────────────────────────────────────────────────────
+CPU reads rx_buf[i]
+
+  Cache miss → CPU fetches from DDR
+  CPU sees: 0, 4, 8, 12... ← Correct ✅
