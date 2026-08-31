@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sdkproject:SdkProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdkproject="http://www.xilinx.com/sdkproject" name="axi_dma_gain_app" location="C:/Users/rvelago/Zybo_Z7/Projects/project_5_ps_plus_custom_axis/axi_dma_gain_app" platform="C:/Users/rvelago/Zybo_Z7/Projects/project_5_ps_plus_custom_axis/axi_dma_gain/export/axi_dma_gain/axi_dma_gain.xpfm" platformUID="xilinx:zybo-z7-10::0.0(custom)" systemProject="axi_dma_gain_app_system" sysConfig="axi_dma_gain" runtime="C/C++" cpu="standalone_domain" cpuInstance="ps7_cortexa9_0" os="standalone" mssSignature="d1f85f990365e053025d738961d8a683">
+  <configuration name="Debug" id="xilinx.gnu.armv7.exe.debug.575652943">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+    <lastBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <configuration name="Release" id="xilinx.gnu.armv7.exe.release.850835499" dirty="true">
+    <configBuildOptions xsi:type="sdkproject:SdkOptions"/>
+  </configuration>
+  <template appTemplateName="hello_world"/>
+</sdkproject:SdkProject>

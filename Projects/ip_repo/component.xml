@@ -3,7 +3,7 @@
   <spirit:vendor>user</spirit:vendor>
   <spirit:library>user</spirit:library>
   <spirit:name>axis_gain_scaler</spirit:name>
-  <spirit:version>1.0</spirit:version>
+  <spirit:version>2.0</spirit:version>
   <spirit:busInterfaces>
     <spirit:busInterface>
       <spirit:name>m_axis</spirit:name>
@@ -44,6 +44,12 @@
           </spirit:physicalPort>
         </spirit:portMap>
       </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>FREQ_HZ</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.M_AXIS.FREQ_HZ">100000000</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
     </spirit:busInterface>
     <spirit:busInterface>
       <spirit:name>s_axis</spirit:name>
@@ -84,9 +90,183 @@
           </spirit:physicalPort>
         </spirit:portMap>
       </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>FREQ_HZ</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS.FREQ_HZ">100000000</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
     </spirit:busInterface>
     <spirit:busInterface>
-      <spirit:name>aclk</spirit:name>
+      <spirit:name>s_axi</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="aximm" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="aximm_rtl" spirit:version="1.0"/>
+      <spirit:slave>
+        <spirit:memoryMapRef spirit:memoryMapRef="s_axi"/>
+      </spirit:slave>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>AWADDR</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_awaddr</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>AWVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_awvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>AWREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_awready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>WDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_wdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>WSTRB</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_wstrb</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>WVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_wvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>WREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_wready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>BRESP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_bresp</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>BVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_bvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>BREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_bready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ARADDR</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_araddr</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ARVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_arvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>ARREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_arready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_rdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RRESP</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_rresp</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_rvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_rready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s_axi_aresetn</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axi_aresetn</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXI_ARESETN.POLARITY" spirit:choiceRef="choice_list_74b5137e">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s_axi_aclk</spirit:name>
       <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
       <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
       <spirit:slave/>
@@ -96,22 +276,40 @@
             <spirit:name>CLK</spirit:name>
           </spirit:logicalPort>
           <spirit:physicalPort>
-            <spirit:name>aclk</spirit:name>
+            <spirit:name>s_axi_aclk</spirit:name>
           </spirit:physicalPort>
         </spirit:portMap>
       </spirit:portMaps>
       <spirit:parameters>
         <spirit:parameter>
           <spirit:name>ASSOCIATED_BUSIF</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.ACLK.ASSOCIATED_BUSIF">m_axis:s_axis</spirit:value>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXI_ACLK.ASSOCIATED_BUSIF">s_axi</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXI_ACLK.ASSOCIATED_RESET">s_axi_aresetn</spirit:value>
         </spirit:parameter>
         <spirit:parameter>
           <spirit:name>FREQ_HZ</spirit:name>
-          <spirit:value spirit:id="BUSIFPARAM_VALUE.ACLK.FREQ_HZ"/>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXI_ACLK.FREQ_HZ"/>
         </spirit:parameter>
       </spirit:parameters>
     </spirit:busInterface>
   </spirit:busInterfaces>
+  <spirit:memoryMaps>
+    <spirit:memoryMap>
+      <spirit:name>s_axi</spirit:name>
+      <spirit:displayName>s_axi</spirit:displayName>
+      <spirit:addressBlock>
+        <spirit:name>reg0</spirit:name>
+        <spirit:displayName>reg0</spirit:displayName>
+        <spirit:baseAddress spirit:format="bitString" spirit:bitStringLength="1">0x0</spirit:baseAddress>
+        <spirit:range spirit:format="long" spirit:resolve="dependent" spirit:dependency="pow(2,(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI_ADDR_WIDTH&apos;)) - 1) - 0 + 1)" spirit:minimum="4096" spirit:rangeType="long">4096</spirit:range>
+        <spirit:width spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI_DATA_WIDTH&apos;)) - 1) - 0 + 1">32</spirit:width>
+        <spirit:usage>register</spirit:usage>
+      </spirit:addressBlock>
+    </spirit:memoryMap>
+  </spirit:memoryMaps>
   <spirit:model>
     <spirit:views>
       <spirit:view>
@@ -127,16 +325,13 @@
           <spirit:localName>xilinx_anylanguagesynthesis_xilinx_com_ip_axi_dma_7_1__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_anylanguagesynthesis_xilinx_com_ip_axis_data_fifo_2_0__ref_view_fileset</spirit:localName>
-        </spirit:fileSetRef>
-        <spirit:fileSetRef>
           <spirit:localName>xilinx_anylanguagesynthesis_xilinx_com_ip_proc_sys_reset_5_0__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_anylanguagesynthesis_xilinx_com_ip_axi_crossbar_2_1__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_anylanguagesynthesis_xilinx_com_ip_axi_protocol_converter_2_1__ref_view_fileset</spirit:localName>
+          <spirit:localName>xilinx_anylanguagesynthesis_user_user_axis_gain_scaler_1_0__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
@@ -144,7 +339,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>4d34d821</spirit:value>
+            <spirit:value>22297734</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -161,16 +356,13 @@
           <spirit:localName>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_axi_dma_7_1__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_axis_data_fifo_2_0__ref_view_fileset</spirit:localName>
-        </spirit:fileSetRef>
-        <spirit:fileSetRef>
           <spirit:localName>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_proc_sys_reset_5_0__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_axi_crossbar_2_1__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_axi_protocol_converter_2_1__ref_view_fileset</spirit:localName>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_user_user_axis_gain_scaler_1_0__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
@@ -178,7 +370,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>32877967</spirit:value>
+            <spirit:value>22297734</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -194,16 +386,13 @@
           <spirit:localName>xilinx_implementation_xilinx_com_ip_axi_dma_7_1__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_implementation_xilinx_com_ip_axis_data_fifo_2_0__ref_view_fileset</spirit:localName>
-        </spirit:fileSetRef>
-        <spirit:fileSetRef>
           <spirit:localName>xilinx_implementation_xilinx_com_ip_proc_sys_reset_5_0__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_implementation_xilinx_com_ip_axi_crossbar_2_1__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
-          <spirit:localName>xilinx_implementation_xilinx_com_ip_axi_protocol_converter_2_1__ref_view_fileset</spirit:localName>
+          <spirit:localName>xilinx_implementation_user_user_axis_gain_scaler_1_0__ref_view_fileset</spirit:localName>
         </spirit:fileSetRef>
         <spirit:fileSetRef>
           <spirit:localName>xilinx_implementation_view_fileset</spirit:localName>
@@ -211,7 +400,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>5104ddf9</spirit:value>
+            <spirit:value>dfb29185</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -225,7 +414,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>318e0514</spirit:value>
+            <spirit:value>e3c6e7bf</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -237,7 +426,7 @@
     </spirit:views>
     <spirit:ports>
       <spirit:port>
-        <spirit:name>aclk</spirit:name>
+        <spirit:name>s_axi_aclk</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:wireTypeDefs>
@@ -250,7 +439,7 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>areset</spirit:name>
+        <spirit:name>s_axi_aresetn</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:wireTypeDefs>
@@ -263,11 +452,129 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
-        <spirit:name>gain</spirit:name>
+        <spirit:name>s_axi_awaddr</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_GAIN_WIDTH&apos;)) - 1)">7</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI_ADDR_WIDTH&apos;)) - 1)">3</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_awvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_awready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_wdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI_DATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_wstrb</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI_DATA_WIDTH&apos;)) / 8) - 1)">3</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">1</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_wvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_wready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_bresp</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">1</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -280,11 +587,152 @@
         </spirit:wire>
       </spirit:port>
       <spirit:port>
+        <spirit:name>s_axi_bvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_bready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_araddr</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI_ADDR_WIDTH&apos;)) - 1)">3</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_arvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_arready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_rdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXI_DATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_rresp</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">1</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic_vector</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_rvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axi_rready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>std_logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
         <spirit:name>s_axis_tdata</spirit:name>
         <spirit:wire>
           <spirit:direction>in</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_DATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_AXIS_DATA_WIDTH&apos;)) - 1)">31</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -346,7 +794,7 @@
         <spirit:wire>
           <spirit:direction>out</spirit:direction>
           <spirit:vector>
-            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_DATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_AXIS_DATA_WIDTH&apos;)) - 1)">31</spirit:left>
             <spirit:right spirit:format="long">0</spirit:right>
           </spirit:vector>
           <spirit:wireTypeDefs>
@@ -403,247 +851,37 @@
     </spirit:ports>
     <spirit:modelParameters>
       <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
-        <spirit:name>C_DATA_WIDTH</spirit:name>
-        <spirit:displayName>C Data Width</spirit:displayName>
-        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_DATA_WIDTH">32</spirit:value>
+        <spirit:name>C_S_AXI_DATA_WIDTH</spirit:name>
+        <spirit:displayName>C S Axi Data Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI_DATA_WIDTH">32</spirit:value>
       </spirit:modelParameter>
       <spirit:modelParameter spirit:dataType="integer">
         <spirit:name>C_GAIN_WIDTH</spirit:name>
         <spirit:displayName>C Gain Width</spirit:displayName>
         <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_GAIN_WIDTH">8</spirit:value>
       </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_AXIS_DATA_WIDTH</spirit:name>
+        <spirit:displayName>C Axis Data Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_AXIS_DATA_WIDTH">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_S_AXI_ADDR_WIDTH</spirit:name>
+        <spirit:displayName>C S Axi Addr Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXI_ADDR_WIDTH">4</spirit:value>
+      </spirit:modelParameter>
     </spirit:modelParameters>
   </spirit:model>
+  <spirit:choices>
+    <spirit:choice>
+      <spirit:name>choice_list_74b5137e</spirit:name>
+      <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
+      <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
+    </spirit:choice>
+  </spirit:choices>
   <spirit:fileSets>
     <spirit:fileSet>
       <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
-      <spirit:file>
-        <spirit:name>src/xlconstant_v1_1_9/xlconstant_v1_1_vl_rfs.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:logicalName>xlconstant_v1_1_9</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_one_0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/lib_cdc_v1_0_3/lib_cdc_v1_0_rfs.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:logicalName>lib_cdc_v1_0_3</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/proc_sys_reset_v5_0_16/proc_sys_reset_v5_0_vh_rfs.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:logicalName>proc_sys_reset_v5_0_16</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_psr_aclk_0.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_psr_aclk_0.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_util_v1_0_4_constants.vh</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:isIncludeFile>true</spirit:isIncludeFile>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_util_v1_0_4_constants_noc.vh</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:isIncludeFile>true</spirit:isIncludeFile>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_util_v1_0_4_structs.svh</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:isIncludeFile>true</spirit:isIncludeFile>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_util_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_mmu_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_s00mmu_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_transaction_regulator_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_s00tr_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_si_converter_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_s00sic_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_s00a2s_0_ooc.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_out_of_context</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_axi2sc_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_s00a2s_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_node_v1_0_17_t_reqsend.svh</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:isIncludeFile>true</spirit:isIncludeFile>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_sarn_0_ooc.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_out_of_context</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_node_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_sarn_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_srn_0_ooc.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_out_of_context</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_srn_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_sawn_0_ooc.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_out_of_context</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_sawn_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_swn_0_ooc.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_out_of_context</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_swn_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_sbn_0_ooc.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_out_of_context</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_sbn_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_m00s2a_0_ooc.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_out_of_context</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_sc2axi_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_m00s2a_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_exit_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3_m00e_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/bd_afc3.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/ooc.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_out_of_context</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect.xdc</spirit:name>
-        <spirit:userFileType>xdc</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/design_1_axi_smc_0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
       <spirit:file>
         <spirit:name>src/design_1_processing_system7_0_0/design_1_processing_system7_0_0.xci</spirit:name>
         <spirit:userFileType>xci</spirit:userFileType>
@@ -655,12 +893,6 @@
         <spirit:userFileType>xci</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
         <spirit:userFileType>CELL_NAME_axi_dma_0</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/design_1_axis_data_fifo_0_0/design_1_axis_data_fifo_0_0.xci</spirit:name>
-        <spirit:userFileType>xci</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>CELL_NAME_axis_data_fifo_0</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0.xci</spirit:name>
@@ -675,15 +907,15 @@
         <spirit:userFileType>CELL_NAME_axi_mem_intercon/xbar</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>src/design_1_axi_mem_intercon_imp_auto_pc_0/design_1_axi_mem_intercon_imp_auto_pc_0.xci</spirit:name>
+        <spirit:name>src/design_1_axis_gain_scaler_0_1/design_1_axis_gain_scaler_0_1.xci</spirit:name>
         <spirit:userFileType>xci</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>CELL_NAME_axi_mem_intercon/m00_couplers/auto_pc</spirit:userFileType>
+        <spirit:userFileType>CELL_NAME_axis_gain_scaler_0</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/axis_gain_scaler.vhd</spirit:name>
         <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_f8bb97d6</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_688a826b</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
@@ -702,16 +934,6 @@
       <spirit:vendorExtensions>
         <xilinx:subCoreRef>
           <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axi_dma" xilinx:version="7.1">
-            <xilinx:mode xilinx:name="create_mode"/>
-          </xilinx:componentRef>
-        </xilinx:subCoreRef>
-      </spirit:vendorExtensions>
-    </spirit:fileSet>
-    <spirit:fileSet>
-      <spirit:name>xilinx_anylanguagesynthesis_xilinx_com_ip_axis_data_fifo_2_0__ref_view_fileset</spirit:name>
-      <spirit:vendorExtensions>
-        <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axis_data_fifo" xilinx:version="2.0">
             <xilinx:mode xilinx:name="create_mode"/>
           </xilinx:componentRef>
         </xilinx:subCoreRef>
@@ -738,10 +960,10 @@
       </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
-      <spirit:name>xilinx_anylanguagesynthesis_xilinx_com_ip_axi_protocol_converter_2_1__ref_view_fileset</spirit:name>
+      <spirit:name>xilinx_anylanguagesynthesis_user_user_axis_gain_scaler_1_0__ref_view_fileset</spirit:name>
       <spirit:vendorExtensions>
         <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axi_protocol_converter" xilinx:version="2.1">
+          <xilinx:componentRef xilinx:vendor="user" xilinx:library="user" xilinx:name="axis_gain_scaler" xilinx:version="1.0">
             <xilinx:mode xilinx:name="create_mode"/>
           </xilinx:componentRef>
         </xilinx:subCoreRef>
@@ -749,226 +971,6 @@
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
-      <spirit:file>
-        <spirit:name>src/xlconstant_v1_1_9/xlconstant_v1_1_vl_rfs.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>xlconstant_v1_1_9</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_one_0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/lib_cdc_v1_0_3/lib_cdc_v1_0_rfs.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>lib_cdc_v1_0_3</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/proc_sys_reset_v5_0_16/proc_sys_reset_v5_0_vh_rfs.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>proc_sys_reset_v5_0_16</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_psr_aclk_0.vhd</spirit:name>
-        <spirit:fileType>vhdlSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_util_v1_0_4_constants.vh</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:isIncludeFile>true</spirit:isIncludeFile>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_util_v1_0_4_constants_noc.vh</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:isIncludeFile>true</spirit:isIncludeFile>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_util_v1_0_4_structs.svh</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:isIncludeFile>true</spirit:isIncludeFile>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_util_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_mmu_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_s00mmu_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_transaction_regulator_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_s00tr_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_si_converter_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_s00sic_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_axi2sc_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_s00a2s_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_node_v1_0_17_t_reqsend.svh</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:isIncludeFile>true</spirit:isIncludeFile>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_node_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_sarn_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_srn_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_sawn_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_swn_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_sbn_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_sc2axi_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_m00s2a_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/smartconnect_v1_0/sc_exit_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3_m00e_0.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/bd_afc3.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/smartconnect_v1_0/sc_switchboard_v1_0_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>smartconnect_v1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/axi_infrastructure_v1_1_0/axi_infrastructure_v1_1_0.vh</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:isIncludeFile>true</spirit:isIncludeFile>
-        <spirit:logicalName>axi_infrastructure_v1_1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/axi_infrastructure_v1_1_0/axi_infrastructure_v1_1_vl_rfs.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>axi_infrastructure_v1_1_0</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/axi_register_slice_v2_1_34/axi_register_slice_v2_1_vl_rfs.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>axi_register_slice_v2_1_34</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/axi_vip_v1_1_20/axi_vip_v1_1_vl_rfs.sv</spirit:name>
-        <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>USED_IN_ipstatic</spirit:userFileType>
-        <spirit:logicalName>axi_vip_v1_1_20</spirit:logicalName>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>sim/design_1_axi_smc_0.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
       <spirit:file>
         <spirit:name>src/design_1_processing_system7_0_0/design_1_processing_system7_0_0.xci</spirit:name>
         <spirit:userFileType>xci</spirit:userFileType>
@@ -980,12 +982,6 @@
         <spirit:userFileType>xci</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
         <spirit:userFileType>CELL_NAME_axi_dma_0</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>src/design_1_axis_data_fifo_0_0/design_1_axis_data_fifo_0_0.xci</spirit:name>
-        <spirit:userFileType>xci</spirit:userFileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>CELL_NAME_axis_data_fifo_0</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0.xci</spirit:name>
@@ -1000,10 +996,10 @@
         <spirit:userFileType>CELL_NAME_axi_mem_intercon/xbar</spirit:userFileType>
       </spirit:file>
       <spirit:file>
-        <spirit:name>src/design_1_axi_mem_intercon_imp_auto_pc_0/design_1_axi_mem_intercon_imp_auto_pc_0.xci</spirit:name>
+        <spirit:name>src/design_1_axis_gain_scaler_0_1/design_1_axis_gain_scaler_0_1.xci</spirit:name>
         <spirit:userFileType>xci</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-        <spirit:userFileType>CELL_NAME_axi_mem_intercon/m00_couplers/auto_pc</spirit:userFileType>
+        <spirit:userFileType>CELL_NAME_axis_gain_scaler_0</spirit:userFileType>
       </spirit:file>
       <spirit:file>
         <spirit:name>src/axis_gain_scaler.vhd</spirit:name>
@@ -1032,16 +1028,6 @@
       </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
-      <spirit:name>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_axis_data_fifo_2_0__ref_view_fileset</spirit:name>
-      <spirit:vendorExtensions>
-        <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axis_data_fifo" xilinx:version="2.0">
-            <xilinx:mode xilinx:name="create_mode"/>
-          </xilinx:componentRef>
-        </xilinx:subCoreRef>
-      </spirit:vendorExtensions>
-    </spirit:fileSet>
-    <spirit:fileSet>
       <spirit:name>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_proc_sys_reset_5_0__ref_view_fileset</spirit:name>
       <spirit:vendorExtensions>
         <xilinx:subCoreRef>
@@ -1062,10 +1048,10 @@
       </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
-      <spirit:name>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_axi_protocol_converter_2_1__ref_view_fileset</spirit:name>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_user_user_axis_gain_scaler_1_0__ref_view_fileset</spirit:name>
       <spirit:vendorExtensions>
         <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axi_protocol_converter" xilinx:version="2.1">
+          <xilinx:componentRef xilinx:vendor="user" xilinx:library="user" xilinx:name="axis_gain_scaler" xilinx:version="1.0">
             <xilinx:mode xilinx:name="create_mode"/>
           </xilinx:componentRef>
         </xilinx:subCoreRef>
@@ -1074,15 +1060,16 @@
     <spirit:fileSet>
       <spirit:name>xilinx_implementation_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>src/bd_afc3.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
         <spirit:name>src/design_1_rst_ps7_0_50M_0/design_1_rst_ps7_0_50M_0.xci</spirit:name>
         <spirit:userFileType>xci</spirit:userFileType>
         <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
         <spirit:userFileType>CELL_NAME_rst_ps7_0_50M</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>src/design_1_axis_gain_scaler_0_1/design_1_axis_gain_scaler_0_1.xci</spirit:name>
+        <spirit:userFileType>xci</spirit:userFileType>
+        <spirit:userFileType>IMPORTED_FILE</spirit:userFileType>
+        <spirit:userFileType>CELL_NAME_axis_gain_scaler_0</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -1100,16 +1087,6 @@
       <spirit:vendorExtensions>
         <xilinx:subCoreRef>
           <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axi_dma" xilinx:version="7.1">
-            <xilinx:mode xilinx:name="create_mode"/>
-          </xilinx:componentRef>
-        </xilinx:subCoreRef>
-      </spirit:vendorExtensions>
-    </spirit:fileSet>
-    <spirit:fileSet>
-      <spirit:name>xilinx_implementation_xilinx_com_ip_axis_data_fifo_2_0__ref_view_fileset</spirit:name>
-      <spirit:vendorExtensions>
-        <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axis_data_fifo" xilinx:version="2.0">
             <xilinx:mode xilinx:name="create_mode"/>
           </xilinx:componentRef>
         </xilinx:subCoreRef>
@@ -1136,10 +1113,10 @@
       </spirit:vendorExtensions>
     </spirit:fileSet>
     <spirit:fileSet>
-      <spirit:name>xilinx_implementation_xilinx_com_ip_axi_protocol_converter_2_1__ref_view_fileset</spirit:name>
+      <spirit:name>xilinx_implementation_user_user_axis_gain_scaler_1_0__ref_view_fileset</spirit:name>
       <spirit:vendorExtensions>
         <xilinx:subCoreRef>
-          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="axi_protocol_converter" xilinx:version="2.1">
+          <xilinx:componentRef xilinx:vendor="user" xilinx:library="user" xilinx:name="axis_gain_scaler" xilinx:version="1.0">
             <xilinx:mode xilinx:name="create_mode"/>
           </xilinx:componentRef>
         </xilinx:subCoreRef>
@@ -1148,24 +1125,34 @@
     <spirit:fileSet>
       <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>xgui/axis_gain_scaler_v1_0.tcl</spirit:name>
+        <spirit:name>xgui/axis_gain_scaler_v2_0.tcl</spirit:name>
         <spirit:fileType>tclSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_318e0514</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_e3c6e7bf</spirit:userFileType>
         <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
-  <spirit:description>AXI4-Stream gain scaler accelerator. Multiplies each 32-bit input sample by a configurable gain value. Passes TLAST for DMA packet framing.</spirit:description>
+  <spirit:description>A new version of axis_gain_scaler with AXI-Lite and AXI-Stream</spirit:description>
   <spirit:parameters>
     <spirit:parameter>
-      <spirit:name>C_DATA_WIDTH</spirit:name>
-      <spirit:displayName>C Data Width</spirit:displayName>
-      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_DATA_WIDTH">32</spirit:value>
+      <spirit:name>C_S_AXI_DATA_WIDTH</spirit:name>
+      <spirit:displayName>C S Axi Data Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI_DATA_WIDTH">32</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>C_GAIN_WIDTH</spirit:name>
       <spirit:displayName>C Gain Width</spirit:displayName>
       <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_GAIN_WIDTH">8</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_AXIS_DATA_WIDTH</spirit:name>
+      <spirit:displayName>C Axis Data Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_AXIS_DATA_WIDTH">32</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_S_AXI_ADDR_WIDTH</spirit:name>
+      <spirit:displayName>C S Axi Addr Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXI_ADDR_WIDTH">4</spirit:value>
     </spirit:parameter>
     <spirit:parameter>
       <spirit:name>Component_Name</spirit:name>
@@ -1180,22 +1167,24 @@
       <xilinx:taxonomies>
         <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
       </xilinx:taxonomies>
-      <xilinx:displayName>axis_gain_scaler_v1_0</xilinx:displayName>
+      <xilinx:displayName>axis_gain_scaler_v2_0</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
       <xilinx:xpmLibraries>
+        <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
         <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
         <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
       </xilinx:xpmLibraries>
-      <xilinx:coreRevision>3</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2026-05-30T17:41:55Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>2</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2026-05-31T19:09:31Z</xilinx:coreCreationDateTime>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2024.2.1</xilinx:xilinxVersion>
-      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="16899c3a"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="af530912"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="ec9d2b55"/>
-      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="43703586"/>
-      <xilinx:checksum xilinx:scope="parameters" xilinx:value="a87442de"/>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="b11564b0"/>
+      <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="a13b2e93"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="0743ce19"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="09030758"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="ebed392b"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="c851543b"/>
     </xilinx:packagingInfo>
   </spirit:vendorExtensions>
 </spirit:component>

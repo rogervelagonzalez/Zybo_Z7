@@ -1,0 +1,245 @@
+/******************************************************************************
+* Copyright (C) 2023 Advanced Micro Devices, Inc. All Rights Reserved.
+* SPDX-License-Identifier: MIT
+******************************************************************************/
+/*
+ * helloworld.c: simple test application
+ *
+ * This application configures UART 16550 to baud rate 9600.
+ * PS7 UART (Zynq) is not initialized by this application, since
+ * bootrom/bsp configures it to baud rate 115200
+ *
+ * ------------------------------------------------
+ * | UART TYPE   BAUD RATE                        |
+ * ------------------------------------------------
+ *   uartns550   9600
+ *   uartlite    Configurable only in HW design
+ *   ps7_uart    115200 (configured by bootrom/bsp)
+ */
+
+#include <stdio.h>
+#include "xil_printf.h"
+#include "xil_types.h"
+#include "xil_cache.h"
+#include "xparameters.h"
+#include "xaxidma.h"
+#include "platform.h"
+#include "xil_printf.h"
+
+#define DMA_DEVICE_ID XPAR_AXI_DMA_0_DEVICE_ID
+#define DMA_TRANSFER_SIZE 8 // Perform DMA transfer of 16 32-bit words in each direction
+
+/* DDR buffer addresses - must be in valid DDR, cache-line aligned     */
+#define TX_BUFFER_BASE      0x00100000UL
+#define RX_BUFFER_BASE      0x00200000UL
+
+#define FIXED_GAIN 4
+
+#define NUM_SAMPLES 256
+#define BUFFER_BYTES (NUM_SAMPLES*sizeof(uint32_t))
+
+static XAxiDma dma_inst; //AXI DMA driver instace
+ //AXI DMA configuration parameters
+static u32 data_dma_to_device[DMA_TRANSFER_SIZE] __attribute__((aligned(64)));
+static u32 data_device_to_dma[DMA_TRANSFER_SIZE]  __attribute__((aligned(64)));
+
+/*--------------------------------------------------------------------
+ * Function Prototypes
+ *--------------------------------------------------------------------*/
+static int  dma_init(void);
+static int  run_transfer(uint32_t tx_addr, uint32_t rx_addr, uint32_t len);
+static void fill_tx_buffer(uint32_t *buf, uint32_t count);
+static int  validate_rx_buffer(uint32_t *tx, uint32_t *rx,
+                               uint32_t count, uint32_t gain);
+static void print_buffers(uint32_t *tx, uint32_t *rx, uint32_t count);
+
+int main()
+{
+    init_platform();
+    int status;
+
+    xil_printf("\r\n");
+	xil_printf("========================================\r\n");
+	xil_printf(" Project 5: AXI4-Stream Gain Scaler    \r\n");
+	xil_printf(" Custom VHDL Accelerator Test          \r\n");
+	xil_printf("========================================\r\n");
+
+    status = dma_init();
+    if (status != XST_SUCCESS) {
+    	xil_printf("[FAIL] DMA init failed: %d\r\n", status);
+		return XST_FAILURE;
+	}
+
+    xil_printf("[OK]   DMA initialized.\r\n");
+
+    // 2. Get Buffer pointers
+    uint32_t *tx_buf = (uint32_t *)TX_BUFFER_BASE;
+    uint32_t *rx_buf = (uint32_t *)RX_BUFFER_BASE;
+
+    // 3. Clean buffer
+    memset(rx_buf, 0x00, BUFFER_BYTES);
+
+    // 4. Fill TX with know sequence
+    fill_tx_buffer(rx_buf, NUM_SAMPLES);
+    xil_printf("[TX]   TX buffer filled with %d samples.\r\n", NUM_SAMPLES);
+    /*------------------------------------------------------------------
+	 * CRITICAL: Cache flush before DMA
+	 *
+	 * The Cortex-A9 has a data cache. DMA operates on physical memory.
+	 * If you write to a buffer and don't flush, the DMA may read
+	 * stale data from DDR (your writes are still in cache).
+	 * Similarly, after DMA writes to DDR, invalidate cache before
+	 * reading, or you'll read the old cached values.
+	 *------------------------------------------------------------------*/
+    Xil_DCacheFlushRange((INTPTR)rx_buf, BUFFER_BYTES);
+    Xil_DCacheFlushRange((INTPTR)tx_buf, BUFFER_BYTES);
+    xil_printf("[CACHE] Cache flushed. DMA will see correct data.\r\n");
+
+    /* Step 5: Run DMA transfer */
+    xil_printf("[DMA]  Starting MM2S + S2MM transfer...\r\n");
+    run_transfer(tx_buf, rx_buf, BUFFER_BYTES);
+    if (status != XST_SUCCESS) {
+		xil_printf("[FAIL] DMA transfer failed: %d\r\n", status);
+		return XST_FAILURE;
+	}
+	xil_printf("[OK]   DMA transfer complete.\r\n");
+
+	/*------------------------------------------------------------------
+	 * CRITICAL: Cache invalidate after DMA writes to DDR
+	 * The DMA wrote to RX_BUFFER_BASE in DDR.
+	 * The cache still holds the old (zeroed) values we memset earlier.
+	 * Invalidate so CPU reads fresh DDR values.
+	 *------------------------------------------------------------------*/
+	Xil_DCacheInvalidateRange((INTPTR)rx_buf, BUFFER_BYTES);
+	xil_printf("[CACHE] RX cache invalidated.\r\n");
+
+	/* Step 6: Print sample values */
+	print_buffers(tx_buf, rx_buf, 8);  /* Print first 8 samples */
+
+	/* Step 7: Validate results */
+	xil_printf("[VAL]  Validating output (expected gain=%d)...\r\n", FIXED_GAIN);
+	status = validate_rx_buffer(tx_buf, rx_buf, NUM_SAMPLES, FIXED_GAIN);
+
+	if (status == XST_SUCCESS) {
+		xil_printf("\r\n========================================\r\n");
+		xil_printf(" PASS: All %d samples correct!\r\n", NUM_SAMPLES);
+		xil_printf("========================================\r\n");
+	} else {
+		xil_printf("\r\n========================================\r\n");
+		xil_printf(" FAIL: Validation errors detected.\r\n");
+		xil_printf("========================================\r\n");
+	}
+
+	return status;
+}
+
+// DMA Initialization function
+static int dma_init(void){
+	static XAxiDma_Config *dma_cfg;
+	int status;
+	dma_cfg = XAxiDma_LookupConfig(DMA_DEVICE_ID);
+	if (!dma_cfg) {
+		xil_printf("[ERR] DMA config not found for device ID %d\r\n", DMA_DEVICE_ID);
+		return XST_FAILURE;
+	}
+	status = XAxiDma_CfgInitialize(&dma_inst, dma_cfg);
+	if (status != XST_SUCCESS) {
+			return XST_FAILURE;
+	}
+	if (XAxiDma_HasSg(&dma_inst)) {
+		xil_printf("[ERR] DMA is in SG mode - expected simple mode!\r\n");
+		return XST_FAILURE;
+	}
+	XAxiDma_IntrDisable(&dma_inst, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DEVICE_TO_DMA);
+	XAxiDma_IntrDisable(&dma_inst, XAXIDMA_IRQ_ALL_MASK, XAXIDMA_DMA_TO_DEVICE);
+
+	return XST_SUCCESS;
+
+}
+
+/*====================================================================
+ * Run a single DMA transfer (MM2S + S2MM simultaneously)
+ *
+ * IMPORTANT: Start S2MM (receive) BEFORE MM2S (transmit).
+ * If MM2S starts first and streams data before S2MM is armed,
+ * the S_AXIS_S2MM port on the DMA applies backpressure (TREADY=0).
+ * Your accelerator must handle this, or samples are lost.
+ * Starting S2MM first eliminates this race condition.
+ *====================================================================*/
+
+static int run_transfer(uint32_t tx_addr, uint32_t rx_addr, uint32_t len)
+{
+    int status;
+
+    status = XAxiDma_SimpleTransfer(&dma_inst, (UINTPTR)rx_addr, len, XAXIDMA_DEVICE_TO_DMA);
+    if (status != XST_SUCCESS) {
+		xil_printf("[ERR] S2MM SimpleTransfer failed: %d\r\n", status);
+		return XST_FAILURE;
+	}
+    status = XAxiDma_SimpleTransfer(&dma_inst, (UINTPTR)tx_addr, len, XAXIDMA_DMA_TO_DEVICE);
+    if (status != XST_SUCCESS) {
+		xil_printf("[ERR] MM2S SimpleTransfer failed: %d\r\n", status);
+		return XST_FAILURE;
+	}
+    uint32_t timeout = 1000000;
+
+    while (!XAxiDma_Busy(&dma_inst, XAXIDMA_DMA_TO_DEVICE)){
+    	if(--timeout== 0){
+    		xil_printf("[ERR]: MM2S timeout error. ");
+    		return XST_FAILURE;
+    	}
+    }
+    timeout = 1000000;
+    while (XAxiDma_Busy(&dma_inst, XAXIDMA_DEVICE_TO_DMA)){
+    	if(--timeout== 0){
+    		xil_printf("[ERR]: S2MM timeout error. ");
+    		return XST_FAILURE;
+    	}
+    }
+    return XST_SUCCESS;
+}
+
+/*====================================================================
+ * Fill TX buffer with test pattern
+ * Pattern: samples 0, 1, 2, ..., N-1
+ * This gives predictable expected outputs after gain scaling
+ *====================================================================*/
+static void fill_tx_buffer(uint32_t *buf, uint32_t count)
+{
+    for (uint32_t i = 0; i < count; i++) {
+        buf[i] = i;
+    }
+}
+
+static int validate_rx_buffer(uint32_t *tx, uint32_t *rx, uint32_t count, uint32_t gain){
+	int errors = 0;
+	for(uint32_t i = 0; i < count; i++){
+		uint32_t expected = tx[i]*gain;
+		if(rx[i] != expected){
+			xil_printf("[MISMATCH] [%3d] TX=0x%08X  Expected=0x%08X""  Got=0x%08X\r\n", i, tx[i], expected, rx[i]);
+			errors++;
+			if (errors >= 10) {
+				xil_printf("[...] Too many errors, stopping report.\r\n");
+				break;
+			}
+		}
+	}
+	if(errors == 0){
+		return XST_SUCCESS;
+	}
+	return XST_FAILURE;
+}
+
+static void print_buffers(uint32_t *tx, uint32_t *rx, uint32_t count)
+{
+    xil_printf("\r\n--- Sample Buffer Dump (first %d samples) ---\r\n",
+               count);
+    xil_printf("  IDX  |    TX (Input)    |   RX (Output)   \r\n");
+    xil_printf("-------+------------------+-----------------\r\n");
+    for (uint32_t i = 0; i < count; i++) {
+        xil_printf("  [%3d] |   0x%08X     |  0x%08X\r\n",
+                   i, tx[i], rx[i]);
+    }
+    xil_printf("\r\n");
+}
+
