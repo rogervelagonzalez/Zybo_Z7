@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ASCII"?>
+<systemproject:SystemProject xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdsproject="http://www.xilinx.com/sdsproject" xmlns:systemproject="http://www.xilinx.com/systemproject" name="project_7_app_system" platform="C:/Users/rvelago/Zybo_Z7/Projects/project_7_ps_plus_custom_axis_axiLite_interruptions/project_7_platform/export/project_7_platform/project_7_platform.xpfm" platformUID="xilinx:zybo-z7-10::0.0(custom)" sysConfig="project_7_platform" runtime="C/C++" rootFSLocation="" linuxImage="" sysroot="">
+  <configuration name="Debug" id="com.xilinx.sdx.system.managedbuilder.debugConfiguration.354528697">
+    <configBuildOptions xsi:type="systemproject:SystemOptions">
+      <applications name="project_7_app" domainName="standalone_domain" domainPrettyName="standalone on ps7_cortexa9_0" appBuildConfig="Debug"/>
+      <options xsi:type="sdsproject:Option" gensdcard="true" dmclkid="0"/>
+    </configBuildOptions>
+    <lastBuildOptions xsi:type="systemproject:SystemOptions">
+      <applications name="project_7_app" domainName="standalone_domain" domainPrettyName="standalone on ps7_cortexa9_0" appBuildConfig="Debug"/>
+      <options xsi:type="sdsproject:Option" gensdcard="true" dmclkid="0"/>
+    </lastBuildOptions>
+  </configuration>
+  <configuration name="Release" id="com.xilinx.sdx.system.managedbuilder.releaseConfiguration.2004262259">
+    <configBuildOptions xsi:type="systemproject:SystemOptions">
+      <applications name="project_7_app" domainName="standalone_domain" domainPrettyName="standalone on ps7_cortexa9_0" appBuildConfig="Release"/>
+      <options xsi:type="sdsproject:Option" gensdcard="true" dmclkid="0"/>
+    </configBuildOptions>
+  </configuration>
+</systemproject:SystemProject>

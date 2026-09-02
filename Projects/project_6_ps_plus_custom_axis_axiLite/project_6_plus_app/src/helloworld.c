@@ -303,13 +303,17 @@ static int run_dma_transfer(uint32_t tx_addr, uint32_t rx_addr,
 
     timeout = 2000000;
     while (XAxiDma_Busy(&dma_inst, XAXIDMA_DMA_TO_DEVICE))
-        if (--timeout == 0) { xil_printf("[ERR] MM2S timeout\r\n");
-                              return XST_FAILURE; }
+        if (timeout - 1 == 0) {
+        	xil_printf("[ERR] MM2S timeout\r\n");
+            return XST_FAILURE;
+        }
 
     timeout = 2000000;
     while (XAxiDma_Busy(&dma_inst, XAXIDMA_DEVICE_TO_DMA))
-        if (--timeout == 0) { xil_printf("[ERR] S2MM timeout\r\n");
-                              return XST_FAILURE; }
+        if (timeout - 1 == 0) {
+        	xil_printf("[ERR] S2MM timeout\r\n");
+            return XST_FAILURE;
+        }
 
     return XST_SUCCESS;
 }
