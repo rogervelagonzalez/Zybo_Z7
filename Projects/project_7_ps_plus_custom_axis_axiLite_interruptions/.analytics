@@ -22,3 +22,12 @@ timestamp=[2026-09-01 21:21:20], mode=BUILD, duration=0:00:03.312, duration_ms=3
 timestamp=[2026-09-02 09:04:13], mode=BUILD, duration=0:00:05.520, duration_ms=5520, data={name=project_7_app, configuration=Debug, clean_build=false}
 timestamp=[2026-09-02 09:05:00], mode=BUILD, duration=0:00:07.222, duration_ms=7222, data={name=project_7_app, configuration=Debug, clean_build=false}
 timestamp=[2026-09-02 09:05:29], mode=BUILD, duration=0:00:28.474, duration_ms=28474, data={name=project_7_app_system, configuration=Debug, clean_build=false}
+timestamp=[2026-09-05 19:43:45], mode=WORKBENCH_START, duration=0:00:07.102, duration_ms=7102, data={}
+timestamp=[2026-09-05 19:43:45], mode=WORKBENCH_UI_INIT, duration=0:00:00.572, duration_ms=572, data={editors_count=6, platform_editors_count=3, projects_count=4, platform_projects_count=1, active_platform_editor=false, projects=RemoteSystemsTempFiles,project_7_app,project_7_app_system,project_7_platform}
+timestamp=[2026-09-05 19:43:48], mode=PLATFORM_REPOSITORY_INIT, duration=0:00:00.952, duration_ms=952, data={}
+timestamp=[2026-09-06 16:43:37], mode=BUILD, duration=0:00:03.954, duration_ms=3954, data={name=project_7_app, configuration=Debug, clean_build=false}
+timestamp=[2026-09-06 16:45:54], mode=BUILD, duration=0:00:01.488, duration_ms=1488, data={name=project_7_app, configuration=Debug, clean_build=false}
+timestamp=[2026-09-06 16:46:55], mode=BUILD, duration=0:00:01.434, duration_ms=1434, data={name=project_7_app, configuration=Debug, clean_build=false}
+timestamp=[2026-09-06 16:49:39], mode=BUILD, duration=0:00:01.363, duration_ms=1363, data={name=project_7_app, configuration=Debug, clean_build=false}
+timestamp=[2026-09-06 16:52:15], mode=BUILD, duration=0:00:06.696, duration_ms=6696, data={name=project_7_app, configuration=Debug, clean_build=false}
+timestamp=[2026-09-06 16:52:36], mode=BUILD, duration=0:00:19.929, duration_ms=19929, data={name=project_7_app_system, configuration=Debug, clean_build=false}

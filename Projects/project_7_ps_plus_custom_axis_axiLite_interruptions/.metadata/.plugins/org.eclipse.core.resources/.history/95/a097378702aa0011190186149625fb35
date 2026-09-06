@@ -342,10 +342,10 @@ static int run_dma_transfer(uint32_t tx_addr, uint32_t rx_addr,
 	if (Status == XST_SUCCESS) {
 		if (!TxDone) {
 			xil_printf("Transmit error %d\r\n", Status);
-			return XST_FAILURE;
+			goto Done;
 		} else if (Status == XST_SUCCESS && !RxDone) {
 			xil_printf("Receive error %d\r\n", Status);
-			return XST_FAILURE;
+			goto Done;
 		}
 	}
 
@@ -355,7 +355,7 @@ static int run_dma_transfer(uint32_t tx_addr, uint32_t rx_addr,
 	Status = Xil_WaitForEventSet(POLL_TIMEOUT_COUNTER, NUMBER_OF_EVENTS, &TxDone);
 	if (Status != XST_SUCCESS) {
 		xil_printf("Transmit failed %d\r\n", Status);
-		return XST_FAILURE;
+		goto Done;
 
 	}
 
@@ -365,7 +365,7 @@ static int run_dma_transfer(uint32_t tx_addr, uint32_t rx_addr,
 	Status = Xil_WaitForEventSet(POLL_TIMEOUT_COUNTER, NUMBER_OF_EVENTS, &RxDone);
 	if (Status != XST_SUCCESS) {
 		xil_printf("Receive failed %d\r\n", Status);
-		return XST_FAILURE;
+		goto Done;
 	}
 
     return XST_SUCCESS;
