@@ -18,3 +18,4 @@ platform active {project_7_platform}
 platform generate
 platform generate -domains zynq_fsbl 
 platform generate -domains standalone_domain,zynq_fsbl 
+platform generate

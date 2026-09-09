@@ -131,7 +131,10 @@ int main(void)
     }
     xil_printf("[OK] DMA initialized\r\n");
 
-
+    /* Initialize flags before start transfer test  */
+    	TxDone = 0;
+    	RxDone = 0;
+    	Error = 0;
 
     /*------------------------------------------------------------------
      * Step 2: Read initial accelerator register state
@@ -178,11 +181,6 @@ int main(void)
         accel_configure(gain);
         accel_enable();
 
-        /* Initialize flags before start transfer test  */
-    	TxDone = 0;
-    	RxDone = 0;
-    	Error = 0;
-
         xil_printf("[ACCEL] Configured. Register state:\r\n");
         accel_print_registers();
 
@@ -203,7 +201,7 @@ int main(void)
 
         /* Read COUNT register — should have incremented by NUM_SAMPLES */
         uint32_t count_after = ACCEL_READ(ACCEL_COUNT_OFFSET);
-        xil_printf("[COUNT] Samples processed so far: %u\r\n",
+        xil_printf("[COUNT] Samples processed so far: %lu\r\n",
                    (unsigned long)count_after);
 
         /* Validate */
@@ -339,10 +337,22 @@ static int run_dma_transfer(uint32_t tx_addr, uint32_t rx_addr,
     status = XAxiDma_SimpleTransfer(&dma_inst, (UINTPTR)tx_addr,
                                     len, XAXIDMA_DMA_TO_DEVICE);
     if (status != XST_SUCCESS) return XST_FAILURE;
+
+    int Status = Xil_WaitForEventSet(POLL_TIMEOUT_COUNTER, NUMBER_OF_EVENTS, &Error);
+	if (Status == XST_SUCCESS) {
+		if (!TxDone) {
+			xil_printf("Transmit error %d\r\n", Status);
+			return XST_FAILURE;
+		} else if (Status == XST_SUCCESS && !RxDone) {
+			xil_printf("Receive error %d\r\n", Status);
+			return XST_FAILURE;
+		}
+	}
+
 	/*
 	 * Wait for TX done or timeout
 	 */
-	int Status = Xil_WaitForEventSet(POLL_TIMEOUT_COUNTER, NUMBER_OF_EVENTS, &TxDone);
+	Status = Xil_WaitForEventSet(POLL_TIMEOUT_COUNTER, NUMBER_OF_EVENTS, &TxDone);
 	if (Status != XST_SUCCESS) {
 		xil_printf("Transmit failed %d\r\n", Status);
 		return XST_FAILURE;
@@ -378,7 +388,7 @@ static int validate_results(uint32_t *tx, uint32_t *rx,
     for (uint32_t i = 0; i < count; i++) {
         uint32_t expected = tx[i] * gain;
         if (rx[i] != expected) {
-            xil_printf("  [%3d] TX=%-6u Expected=%-10u Got=%u\r\n",
+            xil_printf("  [%3d] TX=%-6lu Expected=%-10lu Got=%lu\r\n",
                        i, (unsigned long)tx[i],
                        (unsigned long)expected,
                        (unsigned long)rx[i]);
