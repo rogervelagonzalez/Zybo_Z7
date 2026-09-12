@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="Done"/>
+		<item key="selection" value=""/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="XScuGic_DeviceInterruptHandler"/>
+			<item value="IntIDFull"/>
+			<item value="run_dma"/>
+			<item value="XScuGic_SetPriorityTriggerType"/>
+			<item value="priority"/>
+			<item value="run_dma_transfer"/>
 			<item value="Done"/>
 			<item value="XPAR_INTC_0_DEVICE_ID"/>
 			<item value="SCUGIC"/>
@@ -17,12 +23,6 @@
 			<item value="dma_init"/>
 			<item value="XAxiDma"/>
 			<item value="XAxiDma_CfgInitialize‎"/>
-			<item value="‎XAxiDma_CfgInitialize‎"/>
-			<item value="XAxiDma_CfgInitialize"/>
-			<item value="Init"/>
-			<item value="Ini"/>
-			<item value="‎XAxiDma"/>
-			<item value="XAxiDma_Config"/>
 		</list>
 		<list key="replacehistory">
 		</list>

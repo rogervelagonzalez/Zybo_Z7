@@ -3,7 +3,7 @@
 	<name>project_7_app</name>
 	<comment>Created by Vitis v2024.2</comment>
 	<projects>
-		<project>project_7_platform</project>
+		<project>project_7_platform2</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

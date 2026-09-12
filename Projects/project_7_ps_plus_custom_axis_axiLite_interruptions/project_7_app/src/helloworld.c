@@ -50,8 +50,8 @@
  * DMA and buffer configuration
  *--------------------------------------------------------------------*/
 #define DMA_DEV_ID          XPAR_AXIDMA_0_DEVICE_ID
-#define TX_BUFFER_BASE      0x00100000UL
-#define RX_BUFFER_BASE      0x00200000UL
+#define TX_BUFFER_BASE  	0x01000000UL   /* 16 MB in ï¿½ safely clear of code/stack/heap */
+#define RX_BUFFER_BASE  	0x02000000UL   /* 32 MB in */
 #define NUM_SAMPLES         64
 #define BUFFER_BYTES        (NUM_SAMPLES * sizeof(uint32_t))
 
@@ -73,7 +73,7 @@
  *--------------------------------------------------------------------*/
 
 #define INTC		XScuGic
-#define INTC_HANDLER	XScuGic_DeviceInterruptHandler
+#define INTC_HANDLER	XScuGic_InterruptHandler
 
 static XAxiDma dma_inst;
 static INTC Intc;	/* Instance of the Interrupt Controller */
@@ -105,6 +105,25 @@ static int  validate_results(uint32_t *tx, uint32_t *rx,
                              uint32_t count, uint32_t gain);
 static int SetupIntrSystem(INTC *IntcInstancePtr,
 			   XAxiDma *AxiDmaPtr, u16 TxIntrId, u16 RxIntrId);
+static void DataAbortHandler(void *data)
+{
+    uint32_t dfar, dfsr;
+    asm volatile ("mrc p15, 0, %0, c6, c0, 0" : "=r" (dfar));  /* Data Fault Address Register */
+    asm volatile ("mrc p15, 0, %0, c5, c0, 0" : "=r" (dfsr));  /* Data Fault Status Register */
+    xil_printf("\r\n!!! DATA ABORT !!! DFAR=0x%08X DFSR=0x%08X\r\n",
+               (unsigned int)dfar, (unsigned int)dfsr);
+    while (1) {}
+}
+
+static void PrefetchAbortHandler(void *data)
+{
+    uint32_t ifar, ifsr;
+    asm volatile ("mrc p15, 0, %0, c6, c0, 2" : "=r" (ifar));  /* Instruction Fault Address Register */
+    asm volatile ("mrc p15, 0, %0, c5, c0, 1" : "=r" (ifsr));  /* Instruction Fault Status Register */
+    xil_printf("\r\n!!! PREFETCH ABORT !!! IFAR=0x%08X IFSR=0x%08X\r\n",
+               (unsigned int)ifar, (unsigned int)ifsr);
+    while (1) {}
+}
 
 /*====================================================================
  * MAIN
@@ -117,14 +136,23 @@ int main(void)
 
     xil_printf("\r\n");
     xil_printf("=============================================\r\n");
-    xil_printf(" Project 6: AXI4-Lite Gain Control          \r\n");
-    xil_printf(" Runtime-Configurable Stream Accelerator    \r\n");
+    xil_printf(" Project 7: AXI4-Lite Gain Control          \r\n");
+    xil_printf(" Runtime-Configurable Stream Accelerator with Interruptions    \r\n");
     xil_printf("=============================================\r\n\r\n");
+
+
+
+    Xil_ExceptionInit();
+    Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_DATA_ABORT_INT,
+        (Xil_ExceptionHandler)DataAbortHandler, NULL);
+    Xil_ExceptionRegisterHandler(XIL_EXCEPTION_ID_PREFETCH_ABORT_INT,
+        (Xil_ExceptionHandler)PrefetchAbortHandler, NULL);
 
     /*------------------------------------------------------------------
      * Step 1: DMA init
      *------------------------------------------------------------------*/
     status = dma_init();
+    xil_printf("[DMA] RegBase=0x%08X\r\n", (unsigned int)dma_inst.RegBase);
     if (status != XST_SUCCESS) {
         xil_printf("[FAIL] DMA init failed\r\n");
         return XST_FAILURE;
@@ -201,7 +229,7 @@ int main(void)
         /* Invalidate and read results */
         Xil_DCacheInvalidateRange((UINTPTR)rx_buf, BUFFER_BYTES);
 
-        /* Read COUNT register — should have incremented by NUM_SAMPLES */
+        /* Read COUNT register ï¿½ should have incremented by NUM_SAMPLES */
         uint32_t count_after = ACCEL_READ(ACCEL_COUNT_OFFSET);
         xil_printf("[COUNT] Samples processed so far: %u\r\n",
                    (unsigned long)count_after);
@@ -225,11 +253,11 @@ int main(void)
     if (pass_count == num_tests) {
         xil_printf(" ALL TESTS PASSED\r\n");
     } else {
-        xil_printf(" SOME TESTS FAILED — check debug output\r\n");
+        xil_printf(" SOME TESTS FAILED ï¿½ check debug output\r\n");
     }
     xil_printf("=============================================\r\n");
 
-    /* Final register dump — COUNT should show total samples processed */
+    /* Final register dump ï¿½ COUNT should show total samples processed */
     xil_printf("\r\n[FINAL] Accelerator register state:\r\n");
     accel_print_registers();
 
@@ -243,7 +271,7 @@ int main(void)
 
 static void accel_configure(uint8_t gain)
 {
-    /* Write gain value — only bits[7:0] used, upper bits ignored by HW */
+    /* Write gain value ï¿½ only bits[7:0] used, upper bits ignored by HW */
     ACCEL_WRITE(ACCEL_GAIN_OFFSET, (uint32_t)gain);
     xil_printf("[ACCEL] GAIN register written: %d (0x%02X)\r\n",
                gain, gain);
@@ -271,7 +299,7 @@ static void accel_print_registers(void)
     uint32_t count  = ACCEL_READ(ACCEL_COUNT_OFFSET);
     uint32_t status = ACCEL_READ(ACCEL_STATUS_OFFSET);
 
-    /* %08X matches (unsigned int) — both 32-bit, no mismatch */
+    /* %08X matches (unsigned int) ï¿½ both 32-bit, no mismatch */
     xil_printf("  CTRL   (0x00) = 0x%08X  [enable=%d]\r\n",
                (unsigned int)ctrl,
                (int)(ctrl & 1));
@@ -302,6 +330,8 @@ static int dma_init(void)
 
     int status = XAxiDma_CfgInitialize(&dma_inst, cfg);
     if (status != XST_SUCCESS) return XST_FAILURE;
+    xil_printf("HasMm2S=%d HasS2Mm=%d HasSg=%d\r\n",
+    		dma_inst.HasMm2S, dma_inst.HasS2Mm, dma_inst.HasSg);
 
     if (XAxiDma_HasSg(&dma_inst)) {
         xil_printf("[ERR] Expected simple DMA mode\r\n");
@@ -332,13 +362,19 @@ static int run_dma_transfer(uint32_t tx_addr, uint32_t rx_addr,
                             uint32_t len)
 {
     /* Always arm S2MM before MM2S */
-    int status = XAxiDma_SimpleTransfer(&dma_inst, (UINTPTR)rx_addr,
-                                        len, XAXIDMA_DEVICE_TO_DMA);
-    if (status != XST_SUCCESS) return XST_FAILURE;
+	xil_printf("[DMA] Starting S2MM...\r\n");
+	int status = XAxiDma_SimpleTransfer(&dma_inst, (UINTPTR)rx_addr,
+										len, XAXIDMA_DEVICE_TO_DMA);
+	xil_printf("[DMA] S2MM SimpleTransfer returned %d\r\n", status);
+	if (status != XST_SUCCESS) return XST_FAILURE;
 
-    status = XAxiDma_SimpleTransfer(&dma_inst, (UINTPTR)tx_addr,
-                                    len, XAXIDMA_DMA_TO_DEVICE);
-    if (status != XST_SUCCESS) return XST_FAILURE;
+	xil_printf("[DMA] Starting MM2S...\r\n");
+	status = XAxiDma_SimpleTransfer(&dma_inst, (UINTPTR)tx_addr,
+									len, XAXIDMA_DMA_TO_DEVICE);
+	xil_printf("[DMA] MM2S SimpleTransfer returned %d\r\n", status);
+	if (status != XST_SUCCESS) return XST_FAILURE;
+
+	xil_printf("[DMA] Waiting for TxDone...\r\n");
 	/*
 	 * Wait for TX done or timeout
 	 */
@@ -578,9 +614,9 @@ static int SetupIntrSystem(INTC *IntcInstancePtr, XAxiDma *AxiDmaPtr, u16 TxIntr
 	}
 
 
-	XScuGic_SetPriorityTriggerType(IntcInstancePtr, TxIntrId, 0xA0, 0x3);
+	XScuGic_SetPriorityTriggerType(IntcInstancePtr, TxIntrId, 0xA0, 0x1);
 
-	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA0, 0x3);
+	XScuGic_SetPriorityTriggerType(IntcInstancePtr, RxIntrId, 0xA0, 0x1);
 	/*
 	 * Connect the device driver handler that will be called when an
 	 * interrupt for the device occurs, the handler defined above performs
