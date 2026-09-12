@@ -105,10 +105,6 @@ static int  validate_results(uint32_t *tx, uint32_t *rx,
                              uint32_t count, uint32_t gain);
 static int SetupIntrSystem(INTC *IntcInstancePtr,
 			   XAxiDma *AxiDmaPtr, u16 TxIntrId, u16 RxIntrId);
-
-static int wait_for_transfer_done(void);
-
-
 static void DataAbortHandler(void *data)
 {
     uint32_t dfar, dfsr;
@@ -135,8 +131,8 @@ static void PrefetchAbortHandler(void *data)
 int main(void)
 {
     int status;
-    uint32_t *tx_buf[2] = {(uint32_t *)TX_BUFFER_BASE, (uint32_t *)(TX_BUFFER_BASE + BUFFER_BYTES)};
-    uint32_t *rx_buf[2] = {(uint32_t *)RX_BUFFER_BASE, (uint32_t *)(RX_BUFFER_BASE + BUFFER_BYTES)};
+    uint32_t *tx_buf = (uint32_t *)TX_BUFFER_BASE;
+    uint32_t *rx_buf = (uint32_t *)RX_BUFFER_BASE;
 
     xil_printf("\r\n");
     xil_printf("=============================================\r\n");
@@ -175,9 +171,9 @@ int main(void)
     /*------------------------------------------------------------------
      * Step 3: Fill TX buffer with known ramp pattern
      *------------------------------------------------------------------*/
-    fill_tx_ramp(tx_buf[0], NUM_SAMPLES);
-    Xil_DCacheFlushRange((UINTPTR)tx_buf[0], BUFFER_BYTES);
-    Xil_DCacheFlushRange((UINTPTR)rx_buf[0], BUFFER_BYTES);
+    fill_tx_ramp(tx_buf, NUM_SAMPLES);
+    Xil_DCacheFlushRange((UINTPTR)tx_buf, BUFFER_BYTES);
+    Xil_DCacheFlushRange((UINTPTR)rx_buf, BUFFER_BYTES);
     xil_printf("[TX] Buffer filled and cache flushed\r\n");
 
     /*------------------------------------------------------------------
@@ -190,7 +186,6 @@ int main(void)
 
     for (int t = 0; t < num_tests; t++) {
         uint8_t gain = gain_values[t];
-        int cur = t % 2, next = (t + 1) % 2;
 
         xil_printf("\r\n-----------------------------------------\r\n");
         xil_printf(" Test %d: gain = %d\r\n", t+1, gain);
@@ -220,34 +215,27 @@ int main(void)
         accel_print_registers();
 
         /* Clear RX buffer and flush */
-        memset(rx_buf[cur], 0xAB, BUFFER_BYTES);  /* 0xAB = obvious poison value */
-        Xil_DCacheFlushRange((UINTPTR)rx_buf[cur], BUFFER_BYTES);
+        memset(rx_buf, 0xAB, BUFFER_BYTES);  /* 0xAB = obvious poison value */
+        Xil_DCacheFlushRange((UINTPTR)rx_buf, BUFFER_BYTES);
 
         /* Run transfer */
-        status = run_dma_transfer((uint32_t)tx_buf[cur], (uint32_t)rx_buf[cur],
+        status = run_dma_transfer(TX_BUFFER_BASE, RX_BUFFER_BASE,
                                   BUFFER_BYTES);
         if (status != XST_SUCCESS) {
             xil_printf("[FAIL] DMA transfer failed for gain=%d\r\n", gain);
             continue;
         }
 
-        if(t+1 < num_tests){
-        	fill_tx_ramp(tx_buf[next], NUM_SAMPLES);
-        	Xil_DCacheFlushRange((UINTPTR)tx_buf[next], BUFFER_BYTES);
-        }
-
-        int result = wait_for_transfer_done();
-
         /* Invalidate and read results */
-        Xil_DCacheInvalidateRange((UINTPTR)rx_buf[cur], BUFFER_BYTES);
+        Xil_DCacheInvalidateRange((UINTPTR)rx_buf, BUFFER_BYTES);
 
-        /* Read COUNT register should have incremented by NUM_SAMPLES */
+        /* Read COUNT register � should have incremented by NUM_SAMPLES */
         uint32_t count_after = ACCEL_READ(ACCEL_COUNT_OFFSET);
         xil_printf("[COUNT] Samples processed so far: %u\r\n",
                    (unsigned long)count_after);
 
         /* Validate */
-        status = validate_results(tx_buf[cur], rx_buf[cur], NUM_SAMPLES, gain);
+        status = validate_results(tx_buf, rx_buf, NUM_SAMPLES, gain);
         if (status == XST_SUCCESS) {
             xil_printf("[PASS] gain=%d correct!\r\n", gain);
             pass_count++;
@@ -389,7 +377,7 @@ static int run_dma_transfer(uint32_t tx_addr, uint32_t rx_addr,
 	xil_printf("[DMA] Waiting for TxDone...\r\n");
 	/*
 	 * Wait for TX done or timeout
-
+	 */
 	int Status = Xil_WaitForEventSet(POLL_TIMEOUT_COUNTER, NUMBER_OF_EVENTS, &TxDone);
 	if (Status != XST_SUCCESS) {
 		xil_printf("Transmit failed %d\r\n", Status);
@@ -397,15 +385,15 @@ static int run_dma_transfer(uint32_t tx_addr, uint32_t rx_addr,
 
 	}
 
-
+	/*
 	 * Wait for RX done or timeout
-
+	 */
 	Status = Xil_WaitForEventSet(POLL_TIMEOUT_COUNTER, NUMBER_OF_EVENTS, &RxDone);
 	if (Status != XST_SUCCESS) {
 		xil_printf("Receive failed %d\r\n", Status);
 		return XST_FAILURE;
 	}
-	*/
+
     return XST_SUCCESS;
 }
 
@@ -657,25 +645,5 @@ static int SetupIntrSystem(INTC *IntcInstancePtr, XAxiDma *AxiDmaPtr, u16 TxIntr
 
 	Xil_ExceptionEnable();
 
-	return XST_SUCCESS;
-}
-
-static int wait_for_transfer_done(void)
-{
-	uint32_t timeout = POLL_TIMEOUT_COUNTER;
-
-	while(!(TxDone && RxDone) && !Error && timeout--){
-		__asm__ volatile("wfi"); /* "sleep" until next interrupt, then re-check flags */
-	}
-
-	if(Error){
-		xil_printf("DMA error occurred\r\n");
-		return XST_FAILURE;
-	}
-	if (timeout == 0 && !(TxDone && RxDone)) {
-		xil_printf("Transfer timed out (TxDone=%d RxDone=%d)\r\n",
-					(unsigned int)TxDone, (unsigned int)RxDone);
-		return XST_FAILURE;
-	}
 	return XST_SUCCESS;
 }

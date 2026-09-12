@@ -665,7 +665,7 @@ static int wait_for_transfer_done(void)
 	uint32_t timeout = POLL_TIMEOUT_COUNTER;
 
 	while(!(TxDone && RxDone) && !Error && timeout--){
-		__asm__ volatile("wfi"); /* "sleep" until next interrupt, then re-check flags */
+		__asm__volatile("wfi"); /* "sleep" until next interrupt, then re-check flags */
 	}
 
 	if(Error){
@@ -674,7 +674,7 @@ static int wait_for_transfer_done(void)
 	}
 	if (timeout == 0 && !(TxDone && RxDone)) {
 		xil_printf("Transfer timed out (TxDone=%d RxDone=%d)\r\n",
-					(unsigned int)TxDone, (unsigned int)RxDone);
+					(int)TxDone, (int)RxDone);
 		return XST_FAILURE;
 	}
 	return XST_SUCCESS;
