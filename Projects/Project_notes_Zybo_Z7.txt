@@ -106,3 +106,7 @@ Buffer/code placement: never place DMA buffers at or near your linked code's bas
 GIC trigger type: AXI DMA's mm2s_introut/s2mm_introut are level-sensitive; use 0x1 (not 0x3 edge) in XScuGic_SetPriorityTriggerType.
 New, and the actual root cause this time: match your exception-registration handler to the dispatch function you actually use. If INTC_HANDLER is XScuGic_InterruptHandler, register/call it with the XScuGic instance pointer (&Intc). If it's XScuGic_DeviceInterruptHandler, pass the numeric INTC_DEVICE_ID instead. Mixing them compiles silently and corrupts memory at runtime via an out-of-bounds config-table index.
 Debugging technique that got us there: when a fault address is different every run, suspect uninitialized/corrupted memory (a bad index or dangling pointer) rather than a fixed hardware/address-decode issue, which would fault at the same address every time.
+
+IP REPO LOCATION : C:\Users\rvelago\AppData\Roaming\Xilinx\Vivado\..\ip_repo
+C:\Users\rvelago\AppData\Roaming\Xilinx\ip_repo\src
+c:/Users/rvelago/AppData/Roaming/Xilinx/ip_repo/src/axi_lite_bram_slave
